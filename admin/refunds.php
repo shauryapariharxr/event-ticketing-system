@@ -1,0 +1,48 @@
+<?php
+require_once __DIR__ . '/../includes/auth.php';
+require_role(['Administrator']);
+$db = get_db();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $refundId = (int)post('refund_id');
+    $status = post('status');
+    $db->prepare('UPDATE refunds SET status=?, processed_at=NOW() WHERE refund_id=?')->execute([$status, $refundId]);
+    log_action(current_user()['user_id'], 'UPDATE_REFUND', 'refunds', $refundId, $status);
+    flash('success', 'Refund updated.');
+    redirect('/admin/refunds.php');
+}
+
+$refunds = $db->query(
+    "SELECT r.*, u.name AS customer, e.title
+     FROM refunds r
+     JOIN bookings b ON b.booking_id=r.booking_id
+     JOIN users u ON u.user_id=b.user_id
+     JOIN events e ON e.event_id=b.event_id
+     ORDER BY r.requested_at DESC"
+)->fetchAll();
+$title = 'Refunds';
+page_header($title);
+?>
+<h1 class="h3">Refund Management</h1>
+<table class="table table-striped align-middle">
+    <thead><tr><th>Customer</th><th>Event</th><th>Amount</th><th>Reason</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    <?php foreach ($refunds as $refund): ?>
+        <tr>
+            <td><?= e($refund['customer']) ?></td>
+            <td><?= e($refund['title']) ?></td>
+            <td>Rs. <?= number_format((float)$refund['amount'], 2) ?></td>
+            <td><?= e($refund['reason']) ?></td>
+            <td>
+                <form method="post" class="d-flex gap-2">
+                    <input type="hidden" name="refund_id" value="<?= (int)$refund['refund_id'] ?>">
+                    <select class="form-select form-select-sm" name="status"><?php foreach (['Requested','Approved','Rejected','Processed'] as $s): ?><option <?= selected($refund['status'], $s) ?>><?= $s ?></option><?php endforeach; ?></select>
+                    <button class="btn btn-sm btn-primary">Save</button>
+                </form>
+            </td>
+            <td><?= e($refund['processed_at']) ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<?php page_footer(); ?>
