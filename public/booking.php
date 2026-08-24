@@ -93,27 +93,115 @@ $seatStmt = $db->prepare(
 $seatStmt->execute([$eventId, $eventId, $event['venue_id']]);
 $seats = $seatStmt->fetchAll();
 
+// Group seats by Section and Row for clean layout formatting
+$groupedSeats = [];
+foreach ($seats as $seat) {
+    $sec = $seat['section_name'];
+    $row = $seat['row_label'];
+    $groupedSeats[$sec][$row][] = $seat;
+}
+
 $title = 'Book Tickets';
 page_header($title);
 ?>
-<div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+<div class="d-flex justify-content-between align-items-start gap-3 mb-4">
     <div>
-        <h1 class="h3"><?= e($event['title']) ?></h1>
-        <p class="text-muted mb-0"><?= e($event['venue_name']) ?>, <?= e($event['city']) ?> - <?= e(date('d M Y, h:i A', strtotime($event['event_date']))) ?></p>
+        <span class="badge bg-danger bg-opacity-25 text-danger rounded-pill px-3 py-1.5 mb-2 fw-semibold border border-danger border-opacity-25">
+            <i class="bi bi-ticket-perforated me-1"></i> Interactive Seating
+        </span>
+        <h1 class="h3 fw-bold mb-1"><?= e($event['title']) ?></h1>
+        <p class="text-white-50 mb-0 small">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i><?= e($event['venue_name']) ?>, <?= e($event['city']) ?>
+            <span class="mx-2">&bull;</span>
+            <i class="bi bi-calendar3 text-danger me-1"></i><?= e(date('d M Y, h:i A', strtotime($event['event_date']))) ?>
+        </p>
     </div>
-    <a class="btn btn-outline-secondary" href="events.php">Back</a>
+    <a class="btn btn-outline-light rounded-pill btn-sm px-3" href="events.php">
+        <i class="bi bi-arrow-left me-1"></i> Back
+    </a>
 </div>
-<form method="post">
-    <input type="hidden" name="event_id" value="<?= (int)$eventId ?>">
-    <div class="seat-grid mb-3">
-        <?php foreach ($seats as $seat): ?>
-            <label class="seat-tile <?= $seat['is_available'] ? '' : 'disabled' ?>">
-                <input type="checkbox" name="seat_ids[]" value="<?= (int)$seat['seat_id'] ?>" <?= $seat['is_available'] ? '' : 'disabled' ?>>
-                <span><?= e($seat['section_name']) ?> <?= e($seat['row_label']) ?>-<?= e($seat['seat_number']) ?></span>
-                <small>Rs. <?= number_format((float)$seat['price'], 2) ?></small>
-            </label>
-        <?php endforeach; ?>
+
+<!-- Seat States Legend -->
+<div class="seat-legend">
+    <div class="legend-item">
+        <div class="legend-dot available"></div>
+        <span>Available</span>
     </div>
-    <button class="btn btn-primary">Confirm Booking</button>
+    <div class="legend-item">
+        <div class="legend-dot selected"></div>
+        <span>Selected</span>
+    </div>
+    <div class="legend-item">
+        <div class="legend-dot sold"></div>
+        <span>Sold / Held</span>
+    </div>
+</div>
+
+<!-- Curved Screen Glow -->
+<div class="screen-container">
+    <div class="screen-glow"></div>
+    <span class="screen-label">STAGE / SCREEN THIS WAY</span>
+</div>
+
+<form method="post" id="booking-form">
+    <input type="hidden" name="event_id" value="<?= (int)$eventId ?>">
+    
+    <?php foreach ($groupedSeats as $sectionName => $rows): ?>
+        <div class="glass-card p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center border-bottom border-secondary border-opacity-25 pb-2 mb-3">
+                <h3 class="h6 mb-0 text-white-50 fw-bold text-uppercase tracking-wider">
+                    <i class="bi bi-grid-3x3-gap me-2 text-danger"></i><?= e($sectionName) ?> Section
+                </h3>
+                <span class="small text-danger fw-semibold">
+                    Rs. <?= number_format((float)reset($rows)[0]['price'], 2) ?> / ticket
+                </span>
+            </div>
+            
+            <div class="d-flex flex-column gap-2" style="overflow-x: auto; padding-bottom: 0.5rem;">
+                <?php foreach ($rows as $rowLabel => $rowSeats): ?>
+                    <div class="seat-row-wrapper" style="min-width: 500px;">
+                        <div class="row-label-indicator text-center"><?= e($rowLabel) ?></div>
+                        <div class="row-seats-grid">
+                            <?php foreach ($rowSeats as $seat): ?>
+                                <div class="seat-box <?= $seat['is_available'] ? '' : 'disabled' ?>">
+                                    <input type="checkbox" 
+                                           class="seat-checkbox"
+                                           name="seat_ids[]" 
+                                           id="seat-<?= (int)$seat['seat_id'] ?>" 
+                                           value="<?= (int)$seat['seat_id'] ?>" 
+                                           data-price="<?= (float)$seat['price'] ?>" 
+                                           data-label="<?= e($seat['section_name']) ?> <?= e($seat['row_label']) ?>-<?= e($seat['seat_number']) ?>"
+                                           <?= $seat['is_available'] ? '' : 'disabled' ?>>
+                                    <label class="seat-checkmark" for="seat-<?= (int)$seat['seat_id'] ?>" title="Seat <?= e($seat['row_label']) ?>-<?= e($seat['seat_number']) ?> (Rs. <?= number_format((float)$seat['price'], 2) ?>)">
+                                        <?= e($seat['seat_number']) ?>
+                                    </label>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
 </form>
+
+<!-- Floating Checkout Summary Drawer -->
+<div class="checkout-drawer" id="checkout-drawer">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <div class="text-white-50 small"><i class="bi bi-check2-square text-danger me-1"></i>Selected Seats (<span id="seat-count-display">0</span>)</div>
+            <div class="fw-bold text-white text-truncate" id="selected-seats-display" style="max-width: 450px;">None</div>
+        </div>
+        <div class="d-flex align-items-center gap-4">
+            <div class="text-end">
+                <div class="text-white-50 small">Total Amount</div>
+                <div class="fw-bold fs-4 text-danger" id="total-price-display">Rs. 0.00</div>
+            </div>
+            <button type="submit" form="booking-form" class="btn btn-primary rounded-pill px-4 py-2.5 d-flex align-items-center gap-2">
+                <span>Book Tickets</span>
+                <i class="bi bi-arrow-right-short fs-5"></i>
+            </button>
+        </div>
+    </div>
+</div>
 <?php page_footer(); ?>

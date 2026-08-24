@@ -18,26 +18,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $title = 'Register';
 page_header($title);
 ?>
-<div class="auth-box">
-    <h1 class="h3 mb-3">Create Account</h1>
+<div class="glass-card auth-box">
+    <h1 class="h3 mb-3 fw-bold text-white text-center">
+        <i class="bi bi-person-plus text-danger me-2"></i>Create Account
+    </h1>
+    <p class="text-white-50 text-center small mb-4">Join now to choose and reserve premium seats instantly.</p>
+    
     <form method="post">
         <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input class="form-control" name="name" required>
+            <label class="form-label">Full Name</label>
+            <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-person"></i></span>
+                <input class="form-control" name="name" required placeholder="John Doe">
+            </div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input class="form-control" type="email" name="email" required>
+            <label class="form-label">Email Address</label>
+            <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-envelope"></i></span>
+                <input class="form-control" type="email" name="email" required placeholder="name@example.com">
+            </div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Phone</label>
-            <input class="form-control" name="phone">
+            <label class="form-label">Phone Number</label>
+            <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-telephone"></i></span>
+                <input class="form-control" name="phone" placeholder="9000000000">
+            </div>
         </div>
-        <div class="mb-3">
+        <div class="mb-4">
             <label class="form-label">Password</label>
-            <input class="form-control" type="password" name="password" required minlength="6">
+            <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-key"></i></span>
+                <input class="form-control" type="password" name="password" required minlength="6" placeholder="••••••••">
+            </div>
         </div>
-        <button class="btn btn-primary w-100">Register</button>
+        <button class="btn btn-primary w-100 rounded-pill py-2.5">Create Account</button>
     </form>
+    
+    <div class="mt-4 pt-3 border-top border-secondary border-opacity-25 text-center">
+        <p class="small text-white-50 mb-0">Already have an account? <a href="login.php" class="text-danger text-decoration-none fw-semibold">Login here</a></p>
+    </div>
 </div>
 <?php page_footer(); ?>
