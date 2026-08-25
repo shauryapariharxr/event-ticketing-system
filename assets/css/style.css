@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* =========================================================
    AEROTICKETS — Modern UI inspired by BookMyShow & District
@@ -1535,6 +1535,46 @@ img { display: block; }
 .footer-legal { display: flex; gap: 1.2rem; }
 .footer-legal a { color: var(--text-muted); font-size: 0.8rem; text-decoration: none; transition: color 0.2s; }
 .footer-legal a:hover { color: var(--primary); }
+
+/* ── Reference-inspired landing page ── */
+body:has(.landing-page) { background: #f4f8f1; color: #17382b; font-family: 'DM Sans', sans-serif; }
+body:has(.landing-page) .navbar-glass { background: rgba(244,248,241,.94); border-bottom: 1px solid #dce9dc; }
+body:has(.landing-page) .navbar-brand .brand-aero { color: #17382b; background: none; -webkit-text-fill-color: initial; }
+body:has(.landing-page) .navbar-brand .brand-tickets { color: #17382b; }
+body:has(.landing-page) .navbar-brand > i { color: #2c9d50 !important; }
+body:has(.landing-page) .nav-link { color: #446052 !important; }
+body:has(.landing-page) .nav-link:hover, body:has(.landing-page) .nav-link.active { color: #17382b !important; background: #e7f2e5; }
+body:has(.landing-page) .btn-primary { background: #a0ee91; color: #17382b; box-shadow: 0 7px 18px rgba(91,181,81,.2); }
+body:has(.landing-page) .site-footer { background: #123a29; border: 0; }
+body:has(.landing-page) .footer-brand-logo .f-aero { color: #a0ee91; background: none; -webkit-text-fill-color: initial; }
+
+.landing-page { margin: -1.5rem calc(-50vw + 50%) 0; background: #f4f8f1; overflow: hidden; }
+.landing-page h1, .landing-page h2, .landing-page h3, .landing-page strong { font-family: 'Fraunces', Georgia, serif; color: #123a29; }
+.landing-hero { min-height: 650px; padding: 100px max(7vw, 24px) 72px; display: flex; align-items: center; justify-content: center; gap: 9vw; background-color: #f4f8f1; background-image: linear-gradient(#dcebdc 1px, transparent 1px), linear-gradient(90deg, #dcebdc 1px, transparent 1px); background-size: 40px 40px; }
+.landing-hero-copy { max-width: 590px; }
+.landing-kicker { display: inline-flex; align-items: center; gap: 8px; color: #28713f; border: 1px solid #a9e8a0; background: #e2f8de; border-radius: 999px; padding: 7px 14px; font-size: .78rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.landing-hero h1 { font-size: clamp(3.2rem, 6vw, 6.2rem); line-height: .96; letter-spacing: -.06em; margin: 28px 0; }
+.landing-page em { color: #42a959; font-style: italic; }
+.landing-hero-copy > p, .section-intro > p, .feature-copy > p { color: #527061; font-size: 1.08rem; line-height: 1.7; max-width: 490px; }
+.landing-actions { display: flex; gap: 12px; margin: 30px 0; flex-wrap: wrap; }
+.landing-button { display: inline-flex; align-items: center; gap: 12px; border-radius: 999px; padding: 14px 21px; font-weight: 700; font-size: .9rem; transition: transform .2s, box-shadow .2s; }
+.landing-button:hover { transform: translateY(-3px); }
+.landing-button-primary { background: #a0ee91; color: #17382b; box-shadow: 0 10px 24px rgba(77,165,70,.2); }
+.landing-button-quiet { color: #17382b; border: 1px solid #42664c; }
+.landing-proof { color: #6a8274; font-size: .84rem; display: flex; align-items: center; gap: 10px; }
+.proof-dots { display: flex; } .proof-dots i { width: 23px; height: 23px; border-radius: 50%; border: 2px solid #f4f8f1; margin-left: -6px; background: #d2a679; } .proof-dots i:first-child { margin: 0; background: #6b8e72; }.proof-dots i:last-child { background: #2c5841; }
+.ticket-stack { position: relative; width: min(390px, 82vw); height: 430px; flex-shrink: 0; }
+.ticket-card { position: absolute; inset: 12px 0 0; border-radius: 22px; transform: rotate(7deg); background: #d6e7d3; box-shadow: 0 24px 45px rgba(37,75,47,.16); }.ticket-card-back { transform: rotate(-7deg); background: #c0dfbc; inset: 32px 22px 0; }
+.ticket-card-main { inset: 0; transform: rotate(2deg); background: #fff; padding: 25px; display: flex; flex-direction: column; box-shadow: 0 25px 55px rgba(37,75,47,.2); }
+.ticket-top { display: flex; justify-content: space-between; color: #557361; font-size: .75rem; font-weight: 700; letter-spacing: .12em; }.ticket-top i { font-size: 1.7rem; color: #17382b; }
+.ticket-art { height: 190px; margin: 20px 0; border-radius: 14px; background: #245438; color: #b1f3a4; display: flex; align-items: center; justify-content: center; gap: 20px; overflow: hidden; position: relative; }.ticket-art:before { content: ''; position: absolute; width: 220px; height: 220px; border: 1px solid rgba(160,238,145,.35); border-radius: 50%; }.ticket-art i { font-size: 4rem; }.ticket-art span { font-family: 'Fraunces', serif; font-size: 2rem; line-height: .9; }
+.ticket-label { color: #739080; font-size: .78rem; margin: 0; }.ticket-card-main h2 { font-size: 1.8rem; line-height: 1.1; margin: 6px 0 16px; }.ticket-meta { display: flex; justify-content: space-between; color: #527061; font-size: .78rem; border-top: 1px solid #e2ece0; padding-top: 14px; }.ticket-link { margin-top: auto; color: #28713f; font-weight: 700; font-size: .86rem; }.floating-note { position: absolute; right: -28px; bottom: 28px; background: #fff; padding: 13px 17px; border-radius: 12px; box-shadow: 0 12px 30px rgba(37,75,47,.15); display: flex; gap: 10px; align-items: center; font-size: .8rem; }.floating-note i { color: #42a959; font-size: 1.5rem; }.floating-note span { display: flex; flex-direction: column; }.floating-note small { color: #789080; margin-top: 3px; }
+.landing-stats { max-width: 1120px; margin: -18px auto 0; padding: 28px 32px; background: #fff; border-radius: 14px; box-shadow: 0 12px 34px rgba(39,81,51,.08); display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; position: relative; }.landing-stats div { display: flex; flex-direction: column; gap: 5px; text-align: center; border-right: 1px solid #e1ebe0; }.landing-stats div:last-child { border: 0; }.landing-stats strong { font-size: 1.75rem; }.landing-stats span { color: #729080; font-size: .8rem; }
+.landing-section, .landing-events { max-width: 1120px; margin: auto; padding: 135px 24px; }.section-intro { max-width: 600px; }.landing-page h2 { font-size: clamp(2.4rem, 4vw, 4rem); line-height: 1; letter-spacing: -.045em; margin: 20px 0; }.landing-features { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 58px; }.landing-features article { padding: 26px; background: #fff; border: 1px solid #e4ede3; border-radius: 14px; min-height: 265px; transition: transform .2s, box-shadow .2s; }.landing-features article:hover { transform: translateY(-5px); box-shadow: 0 16px 30px rgba(39,81,51,.1); }.landing-features article > span { color: #86a38d; font-size: .8rem; }.landing-features article > i { display: block; color: #32944a; font-size: 1.6rem; margin: 24px 0 12px; }.landing-features h3 { font-size: 1.35rem; margin-bottom: 10px; }.landing-features p, .feature-list small { color: #668072; line-height: 1.55; font-size: .88rem; }.landing-features a, .text-link { color: #26743f; font-size: .82rem; font-weight: 700; }
+.landing-feature-band { background: #e8f3e5; padding: 105px max(7vw, 24px); display: flex; gap: 8vw; align-items: center; justify-content: center; }.feature-image { width: min(48%, 540px); aspect-ratio: 1.15; }.feature-image img { width: 100%; height: 100%; object-fit: cover; border-radius: 18px; filter: saturate(.8); }.feature-copy { max-width: 480px; }.feature-list { margin-top: 30px; display: grid; gap: 20px; }.feature-list > div { display: flex; gap: 15px; align-items: flex-start; }.feature-list i { color: #32944a; background: #c5f4bc; padding: 11px; border-radius: 50%; }.feature-list span { display: flex; flex-direction: column; gap: 4px; }
+.section-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 42px; }.landing-event-grid { display: grid; gap: 12px; }.landing-event { display: grid; grid-template-columns: 72px 1fr auto; align-items: center; gap: 20px; padding: 22px; color: #17382b; background: #fff; border: 1px solid #e2ebe0; border-radius: 12px; }.landing-event:hover { border-color: #9bd796; }.event-date { border-right: 1px solid #e1ebe0; display: flex; flex-direction: column; }.event-date strong { font-size: 1.7rem; }.event-date span { color: #42a959; text-transform: uppercase; font-size: .75rem; font-weight: 700; }.landing-event h3 { font-size: 1.25rem; margin: 0 0 5px; }.landing-event p { color: #70887a; font-size: .82rem; margin: 0; }.event-arrow { color: #42a959; }.landing-empty { background: #fff; padding: 40px; color: #668072; border-radius: 12px; }.landing-quote { text-align: center; padding: 125px 24px; background: #245438; color: #e7f6e4; }.landing-quote > i { font-size: 3rem; color: #a0ee91; }.landing-quote blockquote { max-width: 780px; margin: 20px auto; font: 600 clamp(2rem, 4vw, 4rem)/1.05 'Fraunces',serif; }.landing-quote p { color: #b1d1b3; margin-bottom: 30px; }.landing-quote .landing-button-quiet { color: #e7f6e4; border-color: #8cbf91; }
+@media (max-width: 800px) { .landing-hero { padding-top: 75px; flex-direction: column; align-items: flex-start; gap: 55px; }.ticket-stack { align-self: center; transform: scale(.9); margin: -15px 0; }.landing-stats { margin: 0 20px; grid-template-columns: repeat(2,1fr); }.landing-stats div:nth-child(2) { border: 0; }.landing-features { grid-template-columns: 1fr; }.landing-feature-band { flex-direction: column; align-items: stretch; }.feature-image { width: 100%; }.section-heading { align-items: flex-start; flex-direction: column; gap: 18px; } }
+@media (max-width: 480px) { .landing-hero h1 { font-size: 3.25rem; }.ticket-stack { transform: scale(.78); transform-origin: top center; margin-bottom: -90px; }.landing-stats { padding: 22px 12px; gap: 12px; }.landing-stats div { border: 0 !important; }.landing-section, .landing-events { padding: 90px 20px; }.landing-event { grid-template-columns: 56px 1fr auto; gap: 12px; padding: 16px 12px; }.landing-event h3 { font-size: 1rem; }.landing-feature-band { padding: 75px 20px; } }
 
 /* ============================================================
    EMPTY STATE
