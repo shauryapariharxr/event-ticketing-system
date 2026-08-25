@@ -35,46 +35,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $title = 'Validate Ticket';
 page_header($title);
 ?>
-<div class="glass-card auth-box">
-    <h1 class="h3 mb-3 fw-bold text-white text-center">
-        <i class="bi bi-qr-code-scan text-danger me-2"></i>Gate Check-In
-    </h1>
-    <p class="text-white-50 text-center small mb-4">Validate customer admission passes by ticket number.</p>
-    
-    <form method="post" class="mb-4">
-        <div class="mb-3">
-            <label class="form-label">Ticket Number</label>
-            <div class="input-group">
-                <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-ticket-perforated"></i></span>
-                <input class="form-control" name="ticket_number" required placeholder="TKT-XXXX-XXXX-XXXX">
-            </div>
+<div class="auth-shell">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1><i class="bi bi-qr-code-scan me-2 text-danger"></i>Gate Check-In</h1>
+            <p>Validate customer admission passes using the ticket number.</p>
         </div>
-        <button class="btn btn-primary w-100 rounded-pill py-2.5">
-            <i class="bi bi-check-circle me-1"></i>Verify & Validate
-        </button>
-    </form>
-    
-    <?php if ($result): ?>
-        <div class="alert <?= $result === 'Accepted' ? 'alert-success border-success' : 'alert-danger border-danger' ?> d-flex align-items-start gap-2 rounded-3 small">
-            <div>
-                <?php if ($result === 'Accepted'): ?>
-                    <i class="bi bi-check-circle-fill text-success fs-5"></i>
-                <?php else: ?>
-                    <i class="bi bi-exclamation-triangle-fill text-danger fs-5"></i>
-                <?php endif; ?>
+
+        <form method="post" class="mb-4">
+            <div class="mb-3">
+                <label class="form-label">Ticket Number</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-ticket-perforated"></i></span>
+                    <input class="form-control" name="ticket_number" required placeholder="TKT-XXXX-XXXX-XXXX">
+                </div>
             </div>
-            <div>
-                <strong class="d-block text-white"><?= e($result) ?></strong>
-                <?php if ($ticket): ?>
-                    <span class="text-white-50">
-                        Event: <?= e($ticket['title']) ?><br>
-                        Date: <?= e(date('d M Y, h:i A', strtotime($ticket['event_date']))) ?>
-                    </span>
-                <?php else: ?>
-                    <span class="text-white-50">Ticket not found or booking not confirmed.</span>
-                <?php endif; ?>
+            <button class="btn btn-primary w-100 rounded-pill py-2.5">
+                <i class="bi bi-check-circle me-1"></i>Verify & Validate
+            </button>
+        </form>
+
+        <?php if ($result): ?>
+            <div class="alert <?= $result === 'Accepted' ? 'alert-success border-success' : 'alert-danger border-danger' ?> d-flex align-items-start gap-2 rounded-3 small">
+                <div>
+                    <?php if ($result === 'Accepted'): ?>
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                    <?php else: ?>
+                        <i class="bi bi-exclamation-triangle-fill text-danger fs-5"></i>
+                    <?php endif; ?>
+                </div>
+                <div>
+                    <strong class="d-block text-white"><?= e($result) ?></strong>
+                    <?php if ($ticket): ?>
+                        <span class="text-white-50">
+                            Event: <?= e($ticket['title']) ?><br>
+                            Date: <?= e(date('d M Y, h:i A', strtotime($ticket['event_date']))) ?>
+                        </span>
+                    <?php else: ?>
+                        <span class="text-white-50">Ticket not found or booking not confirmed.</span>
+                    <?php endif; ?>
+                </div>
             </div>
-        </div>
-    <?php endif; ?>
+        <?php endif; ?>
+    </div>
 </div>
 <?php page_footer(); ?>

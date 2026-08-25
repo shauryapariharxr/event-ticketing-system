@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $title = 'Payment';
 page_header($title);
 ?>
-<div class="row g-4 justify-content-center">
+<div class="row g-4 justify-content-center align-items-start">
     <div class="col-lg-5">
         <div class="glass-card p-4">
             <h2 class="h5 fw-bold mb-3 text-white border-bottom border-secondary border-opacity-25 pb-2">
@@ -68,29 +68,25 @@ page_header($title);
                     Booking ID: <code class="text-danger">#<?= (int)$bookingId ?></code>
                 </p>
             </div>
-            
-            <div class="d-flex justify-content-between mb-2 text-white-50 small">
-                <span>Ticket Price Total</span>
-                <span>Rs. <?= number_format((float)$booking['amount'], 2) ?></span>
+
+            <div class="info-list">
+                <div class="info-item"><span>Ticket Price Total</span><strong class="text-white">Rs. <?= number_format((float)$booking['amount'], 2) ?></strong></div>
+                <div class="info-item"><span>Booking Fee / Taxes</span><strong class="text-success">Rs. 0.00</strong></div>
             </div>
-            <div class="d-flex justify-content-between mb-3 text-white-50 small">
-                <span>Booking Fee / Taxes</span>
-                <span class="text-success">Rs. 0.00 (DBMS Special)</span>
-            </div>
-            <div class="d-flex justify-content-between border-top border-secondary border-opacity-25 pt-3 mb-0 fw-bold text-white fs-5">
+
+            <div class="d-flex justify-content-between border-top border-secondary border-opacity-25 pt-3 mt-3 fw-bold text-white fs-5">
                 <span>Amount Payable</span>
                 <span class="text-danger">Rs. <?= number_format((float)$booking['amount'], 2) ?></span>
             </div>
         </div>
     </div>
-    
+
     <div class="col-lg-6">
         <div class="glass-card p-4">
             <h2 class="h5 fw-bold mb-4 text-white border-bottom border-secondary border-opacity-25 pb-2">
                 <i class="bi bi-wallet2 text-danger me-2"></i>Payment Terminal
             </h2>
-            
-            <!-- Credit Card Visual Simulator -->
+
             <div class="payment-card-visual text-white">
                 <div class="d-flex justify-content-between align-items-start mb-4">
                     <i class="bi bi-cpu fs-3 text-warning"></i>
@@ -109,7 +105,6 @@ page_header($title);
                 </div>
             </div>
 
-            <!-- Mock Fields -->
             <div class="row g-3 mb-4">
                 <div class="col-md-6">
                     <label class="form-label">Card Number</label>
@@ -125,7 +120,6 @@ page_header($title);
                 </div>
             </div>
 
-            <!-- Form Action Triggers -->
             <form method="post" class="d-flex flex-column gap-2">
                 <input type="hidden" name="booking_id" value="<?= (int)$bookingId ?>">
                 <button class="btn btn-primary rounded-pill py-2.5 d-flex align-items-center justify-content-center gap-2" name="result" value="success">

@@ -75,49 +75,86 @@ $events = $db->query("SELECT e.*, v.name AS venue_name, u.name AS organizer FROM
 $title = 'Events Admin';
 page_header($title);
 ?>
-<h1 class="h3">Event Management</h1>
-<form method="post" class="admin-form mb-4">
-    <input type="hidden" name="event_id" value="<?= (int)($edit['event_id'] ?? 0) ?>">
-    <div class="row g-3">
-        <div class="col-md-4"><input class="form-control" name="title" placeholder="Event title" value="<?= e($edit['title'] ?? '') ?>" required></div>
-        <div class="col-md-3">
-            <select class="form-select" name="venue_id" required>
-                <?php foreach ($venues as $venue): ?><option value="<?= (int)$venue['venue_id'] ?>" <?= selected($edit['venue_id'] ?? '', $venue['venue_id']) ?>><?= e($venue['name']) ?></option><?php endforeach; ?>
-            </select>
-        </div>
-        <div class="col-md-3"><input class="form-control" type="datetime-local" name="event_date" value="<?= $edit ? e(date('Y-m-d\TH:i', strtotime($edit['event_date']))) : '' ?>" required></div>
-        <div class="col-md-2">
-            <select class="form-select" name="status">
-                <?php foreach (['Draft','Published','Cancelled','Completed'] as $status): ?><option <?= selected($edit['status'] ?? 'Draft', $status) ?>><?= $status ?></option><?php endforeach; ?>
-            </select>
-        </div>
-        <?php if (user_has_role('Administrator')): ?>
-            <div class="col-md-4">
-                <select class="form-select" name="organizer_id">
-                    <?php foreach ($organizers as $org): ?><option value="<?= (int)$org['user_id'] ?>" <?= selected($edit['organizer_id'] ?? '', $org['user_id']) ?>><?= e($org['name']) ?></option><?php endforeach; ?>
-                </select>
+<div class="admin-shell">
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <div class="admin-brand-mark"><i class="bi bi-calendar-event"></i></div>
+            <div>
+                <p class="admin-sidebar-title">Manage</p>
+                <p class="admin-sidebar-name">Event Ops</p>
             </div>
-        <?php endif; ?>
-        <div class="col-md-4"><input class="form-control" type="url" name="poster_image" placeholder="Poster image URL" value="<?= e($edit['poster_image'] ?? '') ?>"></div>
-        <div class="col-md-8"><textarea class="form-control" name="description" placeholder="Description"><?= e($edit['description'] ?? '') ?></textarea></div>
-    </div>
-    <h2 class="h6 mt-3">Ticket Pricing By Section</h2>
-    <div class="row g-2">
-        <?php foreach ($sections as $section): ?>
-            <div class="col-md-3">
-                <input type="hidden" name="section_id[]" value="<?= (int)$section['section_id'] ?>">
-                <label class="form-label small"><?= e($section['venue_name']) ?> / <?= e($section['name']) ?></label>
-                <input class="form-control" type="number" step="0.01" min="0" name="price[]" placeholder="Price">
-                <input type="hidden" name="type_name_<?= (int)$section['section_id'] ?>" value="Standard">
+        </div>
+
+        <nav class="admin-nav">
+            <a class="admin-nav-link" href="dashboard.php"><i class="bi bi-grid-1x2-fill"></i>Dashboard</a>
+            <a class="admin-nav-link" href="venues.php"><i class="bi bi-building"></i>Venues</a>
+            <a class="admin-nav-link active" href="events.php"><i class="bi bi-calendar-event"></i>Events</a>
+            <a class="admin-nav-link" href="seats.php"><i class="bi bi-layout-text-window"></i>Seats</a>
+            <?php if (user_has_role('Administrator')): ?>
+                <a class="admin-nav-link" href="users.php"><i class="bi bi-people"></i>Users</a>
+                <a class="admin-nav-link" href="refunds.php"><i class="bi bi-cash-stack"></i>Refunds</a>
+            <?php endif; ?>
+            <a class="admin-nav-link" href="reports.php"><i class="bi bi-bar-chart"></i>Reports</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="admin-panel">
+            <div class="page-section-header">
+                <div>
+                    <h1 class="page-section-title">Event Management</h1>
+                    <div class="page-section-subtitle">Create and publish ticket inventory</div>
+                </div>
             </div>
-        <?php endforeach; ?>
-    </div>
-    <button class="btn btn-primary mt-3">Save Event</button>
-</form>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead><tr><th>Title</th><th>Venue</th><th>Organizer</th><th>Date</th><th>Status</th><th></th></tr></thead>
-        <tbody><?php foreach ($events as $event): ?><tr><td><?= e($event['title']) ?></td><td><?= e($event['venue_name']) ?></td><td><?= e($event['organizer']) ?></td><td><?= e($event['event_date']) ?></td><td><?= e($event['status']) ?></td><td><a class="btn btn-sm btn-outline-primary" href="?edit=<?= (int)$event['event_id'] ?>">Edit</a> <a class="btn btn-sm btn-outline-danger" href="?delete=<?= (int)$event['event_id'] ?>">Delete</a></td></tr><?php endforeach; ?></tbody>
-    </table>
+
+            <form method="post" class="admin-form-box mb-4">
+                <input type="hidden" name="event_id" value="<?= (int)($edit['event_id'] ?? 0) ?>">
+                <div class="row g-3">
+                    <div class="col-md-4"><input class="form-control" name="title" placeholder="Event title" value="<?= e($edit['title'] ?? '') ?>" required></div>
+                    <div class="col-md-3">
+                        <select class="form-select" name="venue_id" required>
+                            <?php foreach ($venues as $venue): ?><option value="<?= (int)$venue['venue_id'] ?>" <?= selected($edit['venue_id'] ?? '', $venue['venue_id']) ?>><?= e($venue['name']) ?></option><?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-md-3"><input class="form-control" type="datetime-local" name="event_date" value="<?= $edit ? e(date('Y-m-d\TH:i', strtotime($edit['event_date']))) : '' ?>" required></div>
+                    <div class="col-md-2">
+                        <select class="form-select" name="status">
+                            <?php foreach (['Draft','Published','Cancelled','Completed'] as $status): ?><option <?= selected($edit['status'] ?? 'Draft', $status) ?>><?= $status ?></option><?php endforeach; ?>
+                        </select>
+                    </div>
+                    <?php if (user_has_role('Administrator')): ?>
+                        <div class="col-md-4">
+                            <select class="form-select" name="organizer_id">
+                                <?php foreach ($organizers as $org): ?><option value="<?= (int)$org['user_id'] ?>" <?= selected($edit['organizer_id'] ?? '', $org['user_id']) ?>><?= e($org['name']) ?></option><?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php endif; ?>
+                    <div class="col-md-4"><input class="form-control" type="url" name="poster_image" placeholder="Poster image URL" value="<?= e($edit['poster_image'] ?? '') ?>"></div>
+                    <div class="col-md-8"><textarea class="form-control" name="description" placeholder="Description"><?= e($edit['description'] ?? '') ?></textarea></div>
+                </div>
+                <div class="mt-4">
+                    <h2 class="admin-card-title mb-3">Ticket Pricing By Section</h2>
+                    <div class="row g-3">
+                        <?php foreach ($sections as $section): ?>
+                            <div class="col-md-3">
+                                <input type="hidden" name="section_id[]" value="<?= (int)$section['section_id'] ?>">
+                                <label class="form-label small"><?= e($section['venue_name']) ?> / <?= e($section['name']) ?></label>
+                                <input class="form-control" type="number" step="0.01" min="0" name="price[]" placeholder="Price">
+                                <input type="hidden" name="type_name_<?= (int)$section['section_id'] ?>" value="Standard">
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <button class="btn btn-primary mt-3 rounded-pill px-4"><i class="bi bi-check-circle me-1"></i>Save Event</button>
+            </form>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead><tr><th>Title</th><th>Venue</th><th>Organizer</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody><?php foreach ($events as $event): ?><tr><td><?= e($event['title']) ?></td><td><?= e($event['venue_name']) ?></td><td><?= e($event['organizer']) ?></td><td><?= e($event['event_date']) ?></td><td><span class="status-badge info"><?= e($event['status']) ?></span></td><td><div class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary rounded-pill px-3" href="?edit=<?= (int)$event['event_id'] ?>">Edit</a> <a class="btn btn-sm btn-outline-danger rounded-pill px-3" href="?delete=<?= (int)$event['event_id'] ?>">Delete</a></div></td></tr><?php endforeach; ?></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 </div>
 <?php page_footer(); ?>

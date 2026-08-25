@@ -46,7 +46,7 @@ page_header($title);
                         <i class="bi bi-calendar-check me-1"></i>Admission Pass
                     </span>
                     <h2 class="h4 fw-bold text-white mb-3"><?= e($ticket['title']) ?></h2>
-                    
+
                     <div class="row g-2 mb-3 small">
                         <div class="col-sm-6 text-white-50">
                             <i class="bi bi-geo-alt-fill text-danger me-1"></i><?= e($ticket['venue_name']) ?>
@@ -55,7 +55,7 @@ page_header($title);
                             <i class="bi bi-calendar3 text-danger me-1"></i><?= e(date('d M Y, h:i A', strtotime($ticket['event_date']))) ?>
                         </div>
                     </div>
-                    
+
                     <div class="d-flex flex-wrap gap-2 pt-2 border-top border-secondary border-opacity-25">
                         <div class="bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded px-3 py-1.5 text-center">
                             <span class="text-white-50 small d-block" style="font-size: 0.65rem; text-transform: uppercase;">Section</span>
@@ -70,16 +70,17 @@ page_header($title);
                             <span class="fw-bold text-white"><?= e($ticket['seat_number']) ?></span>
                         </div>
                     </div>
-                    
-                    <div class="mt-3 text-white-50 small">
+
+                    <div class="mt-3 text-white-50 small d-flex justify-content-between align-items-center gap-3">
                         <span>Holder: <strong><?= e($ticket['customer']) ?></strong></span>
+                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-2 py-1">AeroTickets</span>
                     </div>
                 </div>
-                
+
                 <div class="ticket-stub">
                     <div class="barcode-visual"></div>
                     <code class="text-white fw-bold d-block mb-2" style="font-size: 0.8rem; letter-spacing: 0.5px;"><?= e($ticket['ticket_number']) ?></code>
-                    
+
                     <?php if ($ticket['status'] === 'Valid'): ?>
                         <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1 text-uppercase fw-bold" style="font-size: 0.75rem;">
                             <i class="bi bi-check-circle-fill me-1"></i><?= e($ticket['status']) ?>
