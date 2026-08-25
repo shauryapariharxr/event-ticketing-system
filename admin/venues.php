@@ -40,28 +40,62 @@ $venues = $db->query('SELECT * FROM venues ORDER BY venue_id DESC')->fetchAll();
 $title = 'Venues';
 page_header($title);
 ?>
-<h1 class="h3">Venue Management</h1>
-<form method="post" class="row g-3 mb-4">
-    <input type="hidden" name="venue_id" value="<?= (int)($edit['venue_id'] ?? 0) ?>">
-    <div class="col-md-3"><input class="form-control" name="name" placeholder="Venue name" value="<?= e($edit['name'] ?? '') ?>" required></div>
-    <div class="col-md-3"><input class="form-control" name="address" placeholder="Address" value="<?= e($edit['address'] ?? '') ?>" required></div>
-    <div class="col-md-2"><input class="form-control" name="city" placeholder="City" value="<?= e($edit['city'] ?? '') ?>" required></div>
-    <div class="col-md-2"><input class="form-control" type="number" name="capacity" placeholder="Capacity" value="<?= e((string)($edit['capacity'] ?? '')) ?>" min="1" required></div>
-    <div class="col-md-1 form-check pt-2"><input class="form-check-input" type="checkbox" name="is_active" <?= checked(($edit['is_active'] ?? 1) == 1) ?>> Active</div>
-    <div class="col-md-1"><button class="btn btn-primary w-100">Save</button></div>
-</form>
-<table class="table table-striped">
-    <thead><tr><th>Name</th><th>City</th><th>Capacity</th><th>Status</th><th></th></tr></thead>
-    <tbody>
-    <?php foreach ($venues as $venue): ?>
-        <tr>
-            <td><?= e($venue['name']) ?></td>
-            <td><?= e($venue['city']) ?></td>
-            <td><?= (int)$venue['capacity'] ?></td>
-            <td><?= $venue['is_active'] ? 'Active' : 'Inactive' ?></td>
-            <td><a class="btn btn-sm btn-outline-primary" href="?edit=<?= (int)$venue['venue_id'] ?>">Edit</a> <a class="btn btn-sm btn-outline-danger" href="?delete=<?= (int)$venue['venue_id'] ?>">Delete</a></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
+<div class="admin-shell">
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <div class="admin-brand-mark"><i class="bi bi-building"></i></div>
+            <div>
+                <p class="admin-sidebar-title">Setup</p>
+                <p class="admin-sidebar-name">Venue Catalog</p>
+            </div>
+        </div>
+
+        <nav class="admin-nav">
+            <a class="admin-nav-link" href="dashboard.php"><i class="bi bi-grid-1x2-fill"></i>Dashboard</a>
+            <a class="admin-nav-link active" href="venues.php"><i class="bi bi-building"></i>Venues</a>
+            <a class="admin-nav-link" href="events.php"><i class="bi bi-calendar-event"></i>Events</a>
+            <a class="admin-nav-link" href="seats.php"><i class="bi bi-layout-text-window"></i>Seats</a>
+            <?php if (user_has_role('Administrator')): ?>
+                <a class="admin-nav-link" href="users.php"><i class="bi bi-people"></i>Users</a>
+                <a class="admin-nav-link" href="refunds.php"><i class="bi bi-cash-stack"></i>Refunds</a>
+            <?php endif; ?>
+            <a class="admin-nav-link" href="reports.php"><i class="bi bi-bar-chart"></i>Reports</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="admin-panel">
+            <div class="page-section-header">
+                <div>
+                    <h1 class="page-section-title">Venue Management</h1>
+                    <div class="page-section-subtitle">Add, update, and maintain event locations</div>
+                </div>
+            </div>
+
+            <form method="post" class="admin-form-box row g-3 mb-4">
+                <input type="hidden" name="venue_id" value="<?= (int)($edit['venue_id'] ?? 0) ?>">
+                <div class="col-md-3"><input class="form-control" name="name" placeholder="Venue name" value="<?= e($edit['name'] ?? '') ?>" required></div>
+                <div class="col-md-3"><input class="form-control" name="address" placeholder="Address" value="<?= e($edit['address'] ?? '') ?>" required></div>
+                <div class="col-md-2"><input class="form-control" name="city" placeholder="City" value="<?= e($edit['city'] ?? '') ?>" required></div>
+                <div class="col-md-2"><input class="form-control" type="number" name="capacity" placeholder="Capacity" value="<?= e((string)($edit['capacity'] ?? '')) ?>" min="1" required></div>
+                <div class="col-md-1 form-check pt-2"><input class="form-check-input" type="checkbox" name="is_active" <?= checked(($edit['is_active'] ?? 1) == 1) ?>> <span class="small text-white-50">Active</span></div>
+                <div class="col-md-1"><button class="btn btn-primary w-100 rounded-pill">Save</button></div>
+            </form>
+            <table class="admin-table">
+                <thead><tr><th>Name</th><th>City</th><th>Capacity</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                <?php foreach ($venues as $venue): ?>
+                    <tr>
+                        <td><?= e($venue['name']) ?></td>
+                        <td><?= e($venue['city']) ?></td>
+                        <td><?= (int)$venue['capacity'] ?></td>
+                        <td><span class="status-badge <?= $venue['is_active'] ? 'success' : 'warning' ?>"><?= $venue['is_active'] ? 'Active' : 'Inactive' ?></span></td>
+                        <td><div class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary rounded-pill px-3" href="?edit=<?= (int)$venue['venue_id'] ?>">Edit</a> <a class="btn btn-sm btn-outline-danger rounded-pill px-3" href="?delete=<?= (int)$venue['venue_id'] ?>">Delete</a></div></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
 <?php page_footer(); ?>

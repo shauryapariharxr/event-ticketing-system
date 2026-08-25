@@ -61,40 +61,24 @@ page_header($title);
                     <td class="text-danger fw-semibold">Rs. <?= number_format((float)$booking['total_amount'], 2) ?></td>
                     <td>
                         <?php if ($booking['status'] === 'Confirmed'): ?>
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-2.5 py-1">
-                                <i class="bi bi-shield-check me-1"></i><?= e($booking['status']) ?>
-                            </span>
+                            <span class="status-badge success"><i class="bi bi-shield-check me-1"></i><?= e($booking['status']) ?></span>
                         <?php elseif ($booking['status'] === 'Pending'): ?>
-                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill px-2.5 py-1">
-                                <i class="bi bi-clock me-1"></i><?= e($booking['status']) ?>
-                            </span>
+                            <span class="status-badge warning"><i class="bi bi-clock me-1"></i><?= e($booking['status']) ?></span>
                         <?php elseif ($booking['status'] === 'Cancelled'): ?>
-                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-2.5 py-1">
-                                <i class="bi bi-shield-x me-1"></i><?= e($booking['status']) ?>
-                            </span>
+                            <span class="status-badge danger"><i class="bi bi-shield-x me-1"></i><?= e($booking['status']) ?></span>
                         <?php else: ?>
-                            <span class="badge bg-secondary bg-opacity-10 text-muted border border-secondary border-opacity-25 rounded-pill px-2.5 py-1">
-                                <i class="bi bi-arrow-counterclockwise me-1"></i><?= e($booking['status']) ?>
-                            </span>
+                            <span class="status-badge info"><i class="bi bi-arrow-counterclockwise me-1"></i><?= e($booking['status']) ?></span>
                         <?php endif; ?>
                     </td>
                     <td>
                         <?php if ($booking['payment_status'] === 'Success'): ?>
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-2.5 py-1">
-                                Paid
-                            </span>
+                            <span class="status-badge success">Paid</span>
                         <?php elseif ($booking['payment_status'] === 'Pending'): ?>
-                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill px-2.5 py-1">
-                                Unpaid
-                            </span>
+                            <span class="status-badge warning">Unpaid</span>
                         <?php elseif ($booking['payment_status'] === 'Failed'): ?>
-                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-2.5 py-1">
-                                Failed
-                            </span>
+                            <span class="status-badge danger">Failed</span>
                         <?php else: ?>
-                            <span class="badge bg-secondary bg-opacity-10 text-muted border border-secondary border-opacity-25 rounded-pill px-2.5 py-1">
-                                Refunded
-                            </span>
+                            <span class="status-badge info">Refunded</span>
                         <?php endif; ?>
                     </td>
                     <td>

@@ -13,13 +13,46 @@ $refunds = $db->query("SELECT r.*, e.title FROM refunds r JOIN bookings b ON b.b
 $title = 'Reports';
 page_header($title);
 ?>
-<h1 class="h3">Reports</h1>
-<div class="row g-4">
-    <div class="col-lg-6 report-block"><h2 class="h5">Revenue</h2><table class="table table-sm"><tbody><?php foreach ($revenue as $r): ?><tr><td><?= e($r['title']) ?></td><td>Rs. <?= number_format((float)$r['revenue'], 2) ?></td></tr><?php endforeach; ?></tbody></table></div>
-    <div class="col-lg-6 report-block"><h2 class="h5">Daily Bookings</h2><table class="table table-sm"><tbody><?php foreach ($daily as $r): ?><tr><td><?= e($r['booking_date']) ?></td><td><?= (int)$r['total_bookings'] ?></td></tr><?php endforeach; ?></tbody></table></div>
-    <div class="col-lg-6 report-block"><h2 class="h5">Monthly Bookings</h2><table class="table table-sm"><tbody><?php foreach ($monthly as $r): ?><tr><td><?= e($r['month']) ?></td><td><?= (int)$r['total_bookings'] ?></td></tr><?php endforeach; ?></tbody></table></div>
-    <div class="col-lg-6 report-block"><h2 class="h5">Available Seats</h2><table class="table table-sm"><tbody><?php foreach ($available as $r): ?><tr><td><?= e($r['title']) ?></td><td><?= (int)$r['available_seats'] ?></td></tr><?php endforeach; ?></tbody></table></div>
-    <div class="col-lg-6 report-block"><h2 class="h5">Popular Events</h2><table class="table table-sm"><tbody><?php foreach ($popular as $r): ?><tr><td><?= e($r['title']) ?></td><td><?= (int)$r['booked_seats'] ?> seats</td></tr><?php endforeach; ?></tbody></table></div>
-    <div class="col-lg-6 report-block"><h2 class="h5">Refunds</h2><table class="table table-sm"><tbody><?php foreach ($refunds as $r): ?><tr><td><?= e($r['title']) ?></td><td>Rs. <?= number_format((float)$r['amount'], 2) ?></td><td><?= e($r['status']) ?></td></tr><?php endforeach; ?></tbody></table></div>
+<div class="admin-shell">
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <div class="admin-brand-mark"><i class="bi bi-bar-chart"></i></div>
+            <div>
+                <p class="admin-sidebar-title">Insights</p>
+                <p class="admin-sidebar-name">Analytics</p>
+            </div>
+        </div>
+
+        <nav class="admin-nav">
+            <a class="admin-nav-link" href="dashboard.php"><i class="bi bi-grid-1x2-fill"></i>Dashboard</a>
+            <a class="admin-nav-link" href="venues.php"><i class="bi bi-building"></i>Venues</a>
+            <a class="admin-nav-link" href="events.php"><i class="bi bi-calendar-event"></i>Events</a>
+            <a class="admin-nav-link" href="seats.php"><i class="bi bi-layout-text-window"></i>Seats</a>
+            <?php if (user_has_role('Administrator')): ?>
+                <a class="admin-nav-link" href="users.php"><i class="bi bi-people"></i>Users</a>
+                <a class="admin-nav-link" href="refunds.php"><i class="bi bi-cash-stack"></i>Refunds</a>
+            <?php endif; ?>
+            <a class="admin-nav-link active" href="reports.php"><i class="bi bi-bar-chart"></i>Reports</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="admin-panel">
+            <div class="page-section-header">
+                <div>
+                    <h1 class="page-section-title">Reports</h1>
+                    <div class="page-section-subtitle">Operational, financial, and ticket availability insights</div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6"><div class="admin-card"><h2 class="admin-card-title">Revenue</h2><table class="admin-table"><tbody><?php foreach ($revenue as $r): ?><tr><td><?= e($r['title']) ?></td><td>Rs. <?= number_format((float)$r['revenue'], 2) ?></td></tr><?php endforeach; ?></tbody></table></div></div>
+                <div class="col-lg-6"><div class="admin-card"><h2 class="admin-card-title">Daily Bookings</h2><table class="admin-table"><tbody><?php foreach ($daily as $r): ?><tr><td><?= e($r['booking_date']) ?></td><td><?= (int)$r['total_bookings'] ?></td></tr><?php endforeach; ?></tbody></table></div></div>
+                <div class="col-lg-6"><div class="admin-card"><h2 class="admin-card-title">Monthly Bookings</h2><table class="admin-table"><tbody><?php foreach ($monthly as $r): ?><tr><td><?= e($r['month']) ?></td><td><?= (int)$r['total_bookings'] ?></td></tr><?php endforeach; ?></tbody></table></div></div>
+                <div class="col-lg-6"><div class="admin-card"><h2 class="admin-card-title">Available Seats</h2><table class="admin-table"><tbody><?php foreach ($available as $r): ?><tr><td><?= e($r['title']) ?></td><td><?= (int)$r['available_seats'] ?></td></tr><?php endforeach; ?></tbody></table></div></div>
+                <div class="col-lg-6"><div class="admin-card"><h2 class="admin-card-title">Popular Events</h2><table class="admin-table"><tbody><?php foreach ($popular as $r): ?><tr><td><?= e($r['title']) ?></td><td><?= (int)$r['booked_seats'] ?> seats</td></tr><?php endforeach; ?></tbody></table></div></div>
+                <div class="col-lg-6"><div class="admin-card"><h2 class="admin-card-title">Refunds</h2><table class="admin-table"><tbody><?php foreach ($refunds as $r): ?><tr><td><?= e($r['title']) ?></td><td>Rs. <?= number_format((float)$r['amount'], 2) ?></td><td><?= e($r['status']) ?></td></tr><?php endforeach; ?></tbody></table></div></div>
+            </div>
+        </div>
+    </main>
 </div>
 <?php page_footer(); ?>
