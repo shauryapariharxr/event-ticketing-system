@@ -16,29 +16,29 @@ $user = current_user();
 
 <!-- ── NAVBAR ─────────────────────────────────────────── -->
 <nav class="navbar-glass" id="mainNavbar">
-    <div class="container d-flex align-items-center gap-3 py-0" style="min-height:62px;">
+    <div class="container navbar-shell">
 
         <!-- Brand -->
         <a class="navbar-brand d-flex align-items-center gap-1 text-decoration-none flex-shrink-0"
            href="<?= BASE_URL ?>/public/index.php">
-            <i class="bi bi-ticket-perforated-fill fs-4" style="color:#f84464;"></i>
+            <i class="bi bi-ticket-perforated-fill fs-4 navbar-brand-icon"></i>
             <span class="navbar-brand"><span class="brand-aero">AERO</span><span class="brand-tickets">TICKETS</span></span>
         </a>
 
         <!-- City Picker -->
         <div class="dropdown d-none d-sm-block flex-shrink-0">
-            <button class="city-picker-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                <i class="bi bi-geo-alt-fill" style="color:#f84464;font-size:0.85rem;"></i>
+            <button class="city-picker-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-label="Choose a city">
+                <i class="bi bi-geo-alt-fill city-picker-icon"></i>
                 <span class="city-name">Pune</span>
                 <i class="bi bi-chevron-down"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item active" href="#"><i class="bi bi-check2 me-1"></i>Pune</a></li>
-                <li><a class="dropdown-item" href="#">Mumbai</a></li>
-                <li><a class="dropdown-item" href="#">Delhi</a></li>
-                <li><a class="dropdown-item" href="#">Bangalore</a></li>
-                <li><a class="dropdown-item" href="#">Hyderabad</a></li>
-                <li><a class="dropdown-item" href="#">Chennai</a></li>
+                <li><a class="dropdown-item active" href="<?= BASE_URL ?>/public/events.php?q=Pune"><i class="bi bi-check2 me-1"></i>Pune</a></li>
+                <li><a class="dropdown-item" href="<?= BASE_URL ?>/public/events.php?q=Mumbai">Mumbai</a></li>
+                <li><a class="dropdown-item" href="<?= BASE_URL ?>/public/events.php?q=Delhi">Delhi</a></li>
+                <li><a class="dropdown-item" href="<?= BASE_URL ?>/public/events.php?q=Bangalore">Bangalore</a></li>
+                <li><a class="dropdown-item" href="<?= BASE_URL ?>/public/events.php?q=Hyderabad">Hyderabad</a></li>
+                <li><a class="dropdown-item" href="<?= BASE_URL ?>/public/events.php?q=Chennai">Chennai</a></li>
             </ul>
         </div>
 
@@ -63,16 +63,14 @@ $user = current_user();
             </li>
             <?php if ($user && in_array($user['role_name'], ['Administrator','Organizer'], true)): ?>
             <li>
-                <a class="nav-link" href="<?= BASE_URL ?>/admin/dashboard.php"
-                   style="color:#f5a623 !important;">
+                <a class="nav-link nav-link-admin" href="<?= BASE_URL ?>/admin/dashboard.php">
                     <i class="bi bi-speedometer2 me-1"></i>Admin
                 </a>
             </li>
             <?php endif; ?>
             <?php if ($user && in_array($user['role_name'], ['Administrator','Gate Staff'], true)): ?>
             <li>
-                <a class="nav-link" href="<?= BASE_URL ?>/public/validate_ticket.php"
-                   style="color:#06b6d4 !important;">
+                <a class="nav-link nav-link-validate" href="<?= BASE_URL ?>/public/validate_ticket.php">
                     <i class="bi bi-qr-code-scan me-1"></i>Validate
                 </a>
             </li>
@@ -82,13 +80,12 @@ $user = current_user();
         <!-- Auth buttons -->
         <div class="d-none d-lg-flex align-items-center gap-2 ms-1 flex-shrink-0">
             <?php if ($user): ?>
-                <a class="nav-link d-flex align-items-center gap-2 py-1 px-2 rounded-pill"
-                   href="<?= BASE_URL ?>/public/profile.php"
-                   style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);">
-                    <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f84464,#ff6b35);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:#fff;">
+                <a class="nav-link d-flex align-items-center gap-2 py-1 px-2 rounded-pill user-pill"
+                   href="<?= BASE_URL ?>/public/profile.php">
+                    <div class="user-avatar">
                         <?= strtoupper(substr($user['name'],0,1)) ?>
                     </div>
-                    <span style="font-size:0.85rem;font-weight:500;color:#fff;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                    <span class="user-name">
                         <?= e($user['name']) ?>
                     </span>
                 </a>
@@ -97,17 +94,16 @@ $user = current_user();
                     <i class="bi bi-box-arrow-right me-1"></i>Logout
                 </a>
             <?php else: ?>
-                <a class="nav-link" href="<?= BASE_URL ?>/public/login.php"
-                   style="color:rgba(255,255,255,0.75)!important;">Sign In</a>
+                <a class="nav-link nav-link-signin" href="<?= BASE_URL ?>/public/login.php">Sign In</a>
                 <a class="btn btn-primary btn-sm rounded-pill px-4"
                    href="<?= BASE_URL ?>/public/register.php">Register</a>
             <?php endif; ?>
         </div>
 
         <!-- Mobile toggle -->
-        <button class="d-lg-none ms-auto border-0 bg-transparent text-white p-1"
+        <button class="d-lg-none ms-auto mobile-nav-toggle"
                 type="button" data-bs-toggle="collapse" data-bs-target="#mobileNav"
-                style="font-size:1.4rem;">
+                aria-label="Toggle navigation menu">
             <i class="bi bi-list"></i>
         </button>
     </div>
@@ -117,7 +113,7 @@ $user = current_user();
         <div class="container pb-3">
             <!-- Mobile search -->
             <form action="<?= BASE_URL ?>/public/events.php" method="get" class="mb-3">
-                <div class="navbar-search" style="max-width:100%;">
+                <div class="navbar-search mobile-search">
                     <i class="bi bi-search search-icon"></i>
                     <input type="search" name="q" placeholder="Search events, shows…"
                            value="<?= e($_GET['q'] ?? '') ?>">
