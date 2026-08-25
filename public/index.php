@@ -15,234 +15,45 @@ $events = get_db()->query(
 page_header($title);
 ?>
 
-<!-- ══════════════════════════════════════════
-     HERO BANNER
-══════════════════════════════════════════ -->
-<div style="margin: 0 calc(-50vw + 50%); margin-top: -1.5rem;">
-<div class="hero-banner">
-    <div class="hero-bg-image"></div>
-    <div class="hero-orb hero-orb-1"></div>
-    <div class="hero-orb hero-orb-2"></div>
-
-    <div class="container hero-content">
-        <div class="row align-items-center g-4">
-            <div class="col-lg-6 fade-up">
-                <div class="hero-eyebrow">
-                    <i class="bi bi-fire"></i>
-                    Live DBMS Seat Simulation
-                </div>
-                <h1 class="hero-title">Book Your Next<br>Experience<br><span style="background:linear-gradient(135deg,#f84464,#ff6b35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Seamlessly.</span></h1>
-                <p class="hero-subtitle">
-                    Real-time event seating, simulated payment transactions, and instant digital ticket stubs — all in one premium platform.
-                </p>
-                <div class="hero-cta-group">
-                    <a href="events.php" class="btn btn-primary rounded-pill px-4 py-2">
-                        <i class="bi bi-compass me-2"></i>Explore Events
-                    </a>
-                    <a href="<?= BASE_URL ?>/admin/dashboard.php" class="btn btn-outline-light rounded-pill px-4 py-2">
-                        <i class="bi bi-shield-lock me-2"></i>Admin Panel
-                    </a>
-                </div>
+<div class="landing-page">
+    <section class="landing-hero">
+        <div class="landing-hero-copy">
+            <span class="landing-kicker"><i class="bi bi-stars"></i> Your live event platform</span>
+            <h1>Make every night<br><em>unforgettable.</em></h1>
+            <p>Discover remarkable concerts, comedy, theatre, and sport, then book your perfect seat in seconds.</p>
+            <div class="landing-actions">
+                <a href="events.php" class="landing-button landing-button-primary">Explore events <i class="bi bi-arrow-up-right"></i></a>
+                <a href="#how-it-works" class="landing-button landing-button-quiet">How it works <i class="bi bi-arrow-down"></i></a>
             </div>
-            <div class="col-lg-6 fade-up fade-up-1">
-                <div class="hero-stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-num">15</div>
-                        <div class="stat-label">DB Tables</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-num">20+</div>
-                        <div class="stat-label">Stored Queries</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-num">4</div>
-                        <div class="stat-label">Access Roles</div>
-                    </div>
-                </div>
-            </div>
+            <div class="landing-proof"><span class="proof-dots"><i></i><i></i><i></i></span><strong>12k+</strong> tickets booked by people making plans.</div>
         </div>
-    </div>
-</div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     CATEGORY STRIP
-══════════════════════════════════════════ -->
-<div class="category-strip mt-4">
-    <a href="events.php" class="category-pill active">
-        <i class="bi bi-grid-fill pill-icon"></i> All Events
-    </a>
-    <a href="events.php?q=concert" class="category-pill">
-        <i class="bi bi-music-note-beamed pill-icon"></i> Concerts
-    </a>
-    <a href="events.php?q=comedy" class="category-pill">
-        <i class="bi bi-emoji-laughing pill-icon"></i> Comedy
-    </a>
-    <a href="events.php?q=theatre" class="category-pill">
-        <i class="bi bi-masks-theater pill-icon"></i> Theatre
-    </a>
-    <a href="events.php?q=sports" class="category-pill">
-        <i class="bi bi-trophy pill-icon"></i> Sports
-    </a>
-    <a href="events.php?q=festival" class="category-pill">
-        <i class="bi bi-stars pill-icon"></i> Festivals
-    </a>
-    <a href="events.php?q=Pune" class="category-pill">
-        <i class="bi bi-geo-alt pill-icon"></i> Pune
-    </a>
-    <a href="events.php?q=Mumbai" class="category-pill">
-        <i class="bi bi-geo-alt pill-icon"></i> Mumbai
-    </a>
-    <a href="events.php?q=Delhi" class="category-pill">
-        <i class="bi bi-geo-alt pill-icon"></i> Delhi
-    </a>
-</div>
-
-<!-- ══════════════════════════════════════════
-     UPCOMING EVENTS — HORIZONTAL SCROLL ROW
-══════════════════════════════════════════ -->
-<?php if ($events): ?>
-<div class="section-header">
-    <div class="section-title">
-        <span class="section-title-bar"></span>
-        Upcoming Events
-    </div>
-    <a href="events.php" class="section-see-all">
-        See All <i class="bi bi-chevron-right"></i>
-    </a>
-</div>
-
-<div class="scroll-row mb-5">
-    <?php foreach (array_slice($events, 0, 8) as $event): ?>
-    <div class="event-card-wrap">
-        <a href="booking.php?event_id=<?= (int)$event['event_id'] ?>" class="text-decoration-none">
-        <div class="event-card">
-            <div class="event-poster-container">
-                <?php if (!empty($event['poster_image'])): ?>
-                    <img class="event-poster" src="<?= e($event['poster_image']) ?>"
-                         alt="<?= e($event['title']) ?>"
-                         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=400';">
-                <?php else: ?>
-                    <img class="event-poster"
-                         src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=400"
-                         alt="Event poster">
-                <?php endif; ?>
-                <div class="event-card-gradient">
-                    <span class="event-badge">
-                        <i class="bi bi-calendar-event"></i>
-                        <?= e(date('d M', strtotime($event['event_date']))) ?>
-                    </span>
-                </div>
+        <div class="ticket-stack" aria-label="Featured event preview">
+            <div class="ticket-card ticket-card-back"></div>
+            <div class="ticket-card ticket-card-main">
+                <div class="ticket-top"><span>AEROTICKETS</span><i class="bi bi-qr-code"></i></div>
+                <div class="ticket-art"><i class="bi bi-music-note-beamed"></i><span>LIVE<br>TONIGHT</span></div>
+                <p class="ticket-label">Featured experience</p><h2><?= $events ? e($events[0]['title']) : 'The city is calling' ?></h2>
+                <div class="ticket-meta"><span><i class="bi bi-calendar3"></i> <?= $events ? e(date('D, d M', strtotime($events[0]['event_date']))) : 'Every weekend' ?></span><span><i class="bi bi-geo-alt"></i> <?= $events ? e($events[0]['city']) : 'Your city' ?></span></div>
+                <a href="<?= $events ? 'booking.php?event_id=' . (int)$events[0]['event_id'] : 'events.php' ?>" class="ticket-link">Reserve a seat <i class="bi bi-arrow-right"></i></a>
             </div>
-            <div class="event-card-body">
-                <div class="event-card-title"><?= e($event['title']) ?></div>
-                <div class="event-card-meta">
-                    <i class="bi bi-geo-alt"></i>
-                    <?= e($event['venue_name']) ?>, <?= e($event['city']) ?>
-                </div>
-                <div class="event-card-footer">
-                    <span class="seats-badge">
-                        <i class="bi bi-people-fill"></i>
-                        <?= (int)($event['available_seats'] ?? 0) ?>
-                    </span>
-                    <span style="color:#f84464;font-size:0.78rem;font-weight:700;">Book →</span>
-                </div>
-            </div>
+            <div class="floating-note"><i class="bi bi-check2-circle"></i><span><strong>Seat secured</strong><small>Just now</small></span></div>
         </div>
-        </a>
-    </div>
-    <?php endforeach; ?>
-</div>
-<?php endif; ?>
+    </section>
 
-<!-- ══════════════════════════════════════════
-     PROMO BANNER
-══════════════════════════════════════════ -->
-<div class="promo-banner mb-2">
-    <div class="promo-banner-text">
-        <h3>🎟️ Endless Entertainment, Anytime.</h3>
-        <p>Discover live events happening near you — from concerts and theatre to comedy and sports.</p>
-    </div>
-    <div class="promo-banner-action">
-        <a href="events.php" class="btn btn-primary rounded-pill px-4">
-            Browse Events <i class="bi bi-arrow-right ms-1"></i>
-        </a>
-    </div>
-</div>
+    <section class="landing-stats">
+        <div><strong>15+</strong><span>event categories</span></div><div><strong>40+</strong><span>venues across cities</span></div><div><strong>100%</strong><span>secure checkout</span></div><div><strong>24/7</strong><span>digital ticket access</span></div>
+    </section>
 
-<!-- ══════════════════════════════════════════
-     FEATURED / ALL EVENTS GRID
-══════════════════════════════════════════ -->
-<?php if (count($events) > 8): ?>
-<div class="section-header mt-5">
-    <div class="section-title">
-        <span class="section-title-bar"></span>
-        Featured Events
-    </div>
-    <a href="events.php" class="section-see-all">
-        See All <i class="bi bi-chevron-right"></i>
-    </a>
-</div>
-<div class="row g-4 mb-5">
-    <?php foreach (array_slice($events, 8) as $i => $event): ?>
-    <div class="col-md-6 col-lg-4 fade-up" style="animation-delay:<?= $i * 0.07 ?>s">
-        <div class="event-card h-100">
-            <div class="event-poster-container">
-                <?php if (!empty($event['poster_image'])): ?>
-                    <img class="event-poster" src="<?= e($event['poster_image']) ?>"
-                         alt="<?= e($event['title']) ?>"
-                         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=600';">
-                <?php else: ?>
-                    <img class="event-poster"
-                         src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=600"
-                         alt="placeholder">
-                <?php endif; ?>
-                <div class="event-card-gradient">
-                    <span class="event-badge">
-                        <i class="bi bi-calendar-event"></i>
-                        <?= e(date('d M Y', strtotime($event['event_date']))) ?>
-                    </span>
-                </div>
-            </div>
-            <div class="event-card-body">
-                <div class="event-card-title"><?= e($event['title']) ?></div>
-                <div class="event-card-meta">
-                    <i class="bi bi-geo-alt"></i>
-                    <?= e($event['venue_name']) ?>, <?= e($event['city']) ?>
-                </div>
-                <div class="event-card-meta">
-                    <i class="bi bi-clock"></i>
-                    <?= e(date('h:i A', strtotime($event['event_date']))) ?>
-                </div>
-                <div class="event-card-footer">
-                    <span class="seats-badge">
-                        <i class="bi bi-people-fill"></i>
-                        <?= (int)($event['available_seats'] ?? 0) ?> seats
-                    </span>
-                    <a class="btn btn-primary btn-sm rounded-pill px-3"
-                       href="booking.php?event_id=<?= (int)$event['event_id'] ?>">
-                        Book Now
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php endforeach; ?>
-</div>
-<?php endif; ?>
+    <section class="landing-section" id="how-it-works">
+        <div class="section-intro"><span class="landing-kicker">The simple way out</span><h2>Plans are better<br>when they <em>feel easy.</em></h2><p>From the first spark of an idea to the moment the lights go down, Aerotickets keeps your night moving.</p></div>
+        <div class="landing-features"><article><span>01</span><i class="bi bi-compass"></i><h3>Find your next thing</h3><p>Browse a living calendar of experiences curated for your city and your mood.</p><a href="events.php">Browse events <i class="bi bi-arrow-up-right"></i></a></article><article><span>02</span><i class="bi bi-grid-3x3-gap"></i><h3>Choose your view</h3><p>See the room, compare seats in real time, and pick the spot that feels right.</p><a href="events.php">See the seats <i class="bi bi-arrow-up-right"></i></a></article><article><span>03</span><i class="bi bi-ticket-perforated"></i><h3>Show up ready</h3><p>Your digital ticket is always close, easy to validate, and ready when you are.</p><a href="register.php">Create an account <i class="bi bi-arrow-up-right"></i></a></article></div>
+    </section>
 
-<!-- ══════════════════════════════════════════
-     EMPTY STATE
-══════════════════════════════════════════ -->
-<?php if (!$events): ?>
-<div class="glass-card empty-state">
-    <div class="empty-state-icon"><i class="bi bi-calendar-x"></i></div>
-    <h3>No Upcoming Events</h3>
-    <p>Check back soon or ask an admin to publish events.</p>
-    <a href="<?= BASE_URL ?>/admin/dashboard.php" class="btn btn-primary rounded-pill px-4">
-        <i class="bi bi-plus-circle me-2"></i>Add Events
-    </a>
+    <section class="landing-feature-band"><div class="feature-image"><img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=85&w=1000" alt="Crowd enjoying a live concert"></div><div class="feature-copy"><span class="landing-kicker">Made for the moment</span><h2>Less time searching.<br><em>More time living.</em></h2><p>One calm, thoughtful place to find the events worth leaving home for. No clutter. No guesswork. Just a better way to make plans.</p><div class="feature-list"><div><i class="bi bi-lightning-charge"></i><span><strong>Real-time availability</strong><small>Know what is open before you click.</small></span></div><div><i class="bi bi-shield-check"></i><span><strong>Simple, secure payments</strong><small>Checkout without the friction.</small></span></div></div></div></section>
+
+    <section class="landing-events"><div class="section-heading"><div><span class="landing-kicker">On the calendar</span><h2>Make a date of it.</h2></div><a href="events.php" class="text-link">View all events <i class="bi bi-arrow-up-right"></i></a></div><?php if ($events): ?><div class="landing-event-grid"><?php foreach (array_slice($events, 0, 3) as $event): ?><a class="landing-event" href="booking.php?event_id=<?= (int)$event['event_id'] ?>"><div class="event-date"><strong><?= e(date('d', strtotime($event['event_date']))) ?></strong><span><?= e(date('M', strtotime($event['event_date']))) ?></span></div><div><h3><?= e($event['title']) ?></h3><p><i class="bi bi-geo-alt"></i> <?= e($event['venue_name']) ?>, <?= e($event['city']) ?></p></div><i class="bi bi-arrow-up-right event-arrow"></i></a><?php endforeach; ?></div><?php else: ?><div class="landing-empty">New experiences are on their way. Check back soon.</div><?php endif; ?></section>
+
+    <section class="landing-quote"><i class="bi bi-quote"></i><blockquote>“The best nights are the ones you did not have to overthink.”</blockquote><p>Make room for something memorable.</p><a href="events.php" class="landing-button landing-button-primary">Find an experience <i class="bi bi-arrow-up-right"></i></a></section>
 </div>
-<?php endif; ?>
 
 <?php page_footer(); ?>
